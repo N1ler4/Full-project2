@@ -38,7 +38,7 @@ export default function Modal1({getServese}:GetServese) {
     price: number|string;
   } 
  interface postData extends initialValues{
-    owner_email: string|any;
+    owner_id: string|any;
  
  }
 
@@ -53,7 +53,7 @@ export default function Modal1({getServese}:GetServese) {
 }
 
 const handelSubmit = async(value:initialValues) => {
-    const data:postData = {...value , owner_email: getValueFromCookie("email") }
+    const data:postData = {...value , owner_id: getValueFromCookie("id") }
     try{
        const res = await services.servicesPost(data)
        console.log(res);

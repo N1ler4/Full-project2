@@ -8,13 +8,6 @@ const index = () => {
   const [loader, setLoader] = useState(true);
   const [data, setData] = useState([]);
 
-  const email = localStorage.getItem("email");
-  const formattedEmail = email?.replace("@", "%40");
-
-  const emailValueFromCookie = getDataFromCookie("email") || "";
-  console.log(emailValueFromCookie);
-
-  const [emailValue , ] = useState<string>(emailValueFromCookie);
 
   const theader = [
     { title: "", name: "id" },
@@ -23,11 +16,14 @@ const index = () => {
     { title: "Action", name: "action" },
   ];
 
+
+  const getId = getDataFromCookie("id")
+
   const getServese = async () => {
     const res = await services.servicesGet({
       page: 1,
       limit: 10,
-      owner_email: emailValue,
+      id: `${getId}`
     });
     console.log(res);
     setData(res.data.services);

@@ -3,14 +3,14 @@ import http  from "../../plugins/http";
 
 interface postData{
     name: string;
-    owner_email: string|null;
+    owner_id: string|null;
     price:number |string
 }
 
 interface getData{
     page:number;
     limit:number;
-    owner_email:string|null|undefined;
+    id:string
 }
 
 interface UpdateData extends postData{
@@ -27,8 +27,8 @@ interface Services{
 
 
 export const services:Services = {
-    servicesPost: (data)=> http.post("/service/create" , data),
+    servicesPost: (data)=> http.post("/service" , data),
     servicesDelete: (id)=> http.delete(`/service?id=${id}`),
-    servicesGet: (data)=> http.get(`/service/get-all?page=${data.page}&limit=${data.limit}&owner_email=${data.owner_email}`),
-    servicesUpdate: (data)=> http.put(`/service/update`, data)
+    servicesGet: (data)=> http.get(`/service/all?page=${data.page}&limit=${data.limit}&owner_id=${data.id}`),
+    servicesUpdate: (data)=> http.put(`/service`, data)
 }

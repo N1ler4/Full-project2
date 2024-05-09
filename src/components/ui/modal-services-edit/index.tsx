@@ -8,6 +8,7 @@ import { Field, Formik ,Form, ErrorMessage } from 'formik';
 import { Button, TextField } from '@mui/material';
 
 import { services } from "../../../service/services";
+import { getDataFromCookie } from '../../../utils/tokenService';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -41,10 +42,11 @@ export default function ModalServicesEdit({data , getServese}:any) {
     price: number|string;
   } 
  interface postData extends initialValues{
-    owner_email: string|null;
+    owner_id: string; 
     id: string;
  
  }
+
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -57,8 +59,8 @@ export default function ModalServicesEdit({data , getServese}:any) {
 }
 
 const handelSubmit = async(value:initialValues) => {
-    let emailUser = localStorage.getItem("email");
-    const paylod:postData = {...value , id: data.id , owner_email: emailUser }
+    const paylod:postData = {...value , id: data.id , owner_id: getDataFromCookie("id") }
+    console.log(data.id)
     try{
         const res = await services.servicesUpdate(paylod)
         console.log(res);

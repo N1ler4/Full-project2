@@ -26,16 +26,17 @@ const style = {
   justifyContent: "center",
 };
 
-const index = () => {
-  const [open, setOpen] = React.useState(false);
+const Index = () => {
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const { forgotPassword } = useAuthStore();
+  const emailValueFromCookie = getDataFromCookie("email") || "";
+
   const initialValues: FormData3 = {
     email: "",
   };
-  const emailValueFromCookie = getDataFromCookie("email") || "";
 
   const [emailValue] = useState<string>(emailValueFromCookie);
 
@@ -44,21 +45,25 @@ const index = () => {
     email: emailValue || "",
     password: "",
   };
+
   const schema = Yup.object().shape({
-    email: Yup.string().min(4, "Too Short!").required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
   });
+
   const schemaForgotModal = Yup.object().shape({
     code: Yup.string()
-      .min(6, "Too Short!")
-      .max(6, "Too Long!")
+      .min(6, "Code must be at least 6 characters")
+      .max(6, "Code must be at most 6 characters")
       .required("Required"),
     password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
-        "Password must be at least 6 characters long and contain at least one uppercase and one lowercase letter"
+        "Password must contain at least one uppercase and one lowercase letter"
       )
       .required("Password is required"),
   });
+
   const handleSubmit = async (values: FormData3) => {
     try {
       await schema.validate(values, { abortEarly: false });
@@ -70,7 +75,8 @@ const index = () => {
       console.log(err);
     }
   };
-  const handleForgotSubmitModal = async (values : FormDataForgotModal) => {
+
+  const handleForgotSubmitModal = async (values: FormDataForgotModal) => {
     try {
       await schemaForgotModal.validate(values, { abortEarly: false });
       const res: any = await forgotPassword(values);
@@ -81,9 +87,11 @@ const index = () => {
       console.log(err);
     }
   };
+
   const backToLogin = () => {
     navigate("/");
   };
+
   return (
     <div className="flex flex-col h-[100vh] justify-center">
       <h3
@@ -101,7 +109,7 @@ const index = () => {
         validationSchema={schema}
         onSubmit={handleSubmit}
       >
-        {() => (
+        {({ errors, touched }) => (
           <Form
             id="form"
             className="flex flex-col items-center justify-center gap-5"
@@ -112,10 +120,11 @@ const index = () => {
               label="Email"
               type="text"
               size="small"
+              error={errors.email && touched.email}
+              helperText={<ErrorMessage name="email" />}
             />
-            <ErrorMessage name="email" component="p" />
             <Button variant="contained" type="submit">
-              Contained
+              Submit
             </Button>
           </Form>
         )}
@@ -134,26 +143,31 @@ const index = () => {
             validationSchema={schemaForgotModal}
             onSubmit={handleForgotSubmitModal}
           >
-            <Form className="flex flex-col gap-3">
-              <Field
-                name="code"
-                as={TextField}
-                label="Code"
-                type="code"
-                size="small"
-              />
-              <Field
-                name="password"
-                as={TextField}
-                label="New Password"
-                type="password"
-                size="small"
-              />
-              <Button variant="contained" type="submit">
-                {" "}
-                Confirm
-              </Button>
-            </Form>
+            {({ errors, touched }) => (
+              <Form className="flex flex-col gap-3">
+                <Field
+                  name="code"
+                  as={TextField}
+                  label="Code"
+                  type="code"
+                  size="small"
+                  error={errors.code && touched.code}
+                  helperText={<ErrorMessage name="code" />}
+                />
+                <Field
+                  name="password"
+                  as={TextField}
+                  label="New Password"
+                  type="password"
+                  size="small"
+                  error={errors.password && touched.password}
+                  helperText={<ErrorMessage name="password" />}
+                />
+                <Button variant="contained" type="submit">
+                  Confirm
+                </Button>
+              </Form>
+            )}
           </Formik>
         </Box>
       </Modal>
@@ -161,4 +175,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

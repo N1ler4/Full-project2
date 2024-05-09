@@ -16,18 +16,18 @@ const index = () => {
     password: "",
   };
 
-
   const schema = Yup.object().shape({
     email: Yup.string().min(4, "Too Short!").required("Required"),
     password: Yup.string().min(6, "Too Short!").required("Required"),
   });
   const handleSubmit = async (values: FormData2) => {
-    
     try {
       await schema.validate(values, { abortEarly: false });
       const res: any = await signin(values);
       if (res.status === 200) {
-      saveDataFromCookie("email" , values.email);
+        console.log(res);
+        saveDataFromCookie("id", res.data.id);
+        saveDataFromCookie("email", values.email);
         navigate("/main");
       }
     } catch (err) {
