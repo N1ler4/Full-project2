@@ -60,10 +60,8 @@ export default function ModalServicesEdit({data , getServese}:any) {
 
 const handelSubmit = async(value:initialValues) => {
     const paylod:postData = {...value , id: data.id , owner_id: getDataFromCookie("id") }
-    console.log(data.id)
     try{
         const res = await services.servicesUpdate(paylod)
-        console.log(res);
         
         if(res.status === 200){
             getServese()

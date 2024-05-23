@@ -13,4 +13,14 @@ http.interceptors.request.use((config):any=>{
     return config
 })
 
+async function refreshAccessToken(){
+    try{
+        const refresh_token = getDataFromCookie("refresh_token");
+        if(!refresh_token){
+            throw new Error("Refresh token not found")
+        }
+        const response = await http.post("/auth/refresh-accesstoken/", {refresh_token})
+    }
+}
+
 export default http

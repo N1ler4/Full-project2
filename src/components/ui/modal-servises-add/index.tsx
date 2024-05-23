@@ -56,7 +56,6 @@ const handelSubmit = async(value:initialValues) => {
     const data:postData = {...value , owner_id: getValueFromCookie("id") }
     try{
        const res = await services.servicesPost(data)
-       console.log(res);
        
        if(res.status === 201){
         handleClose();

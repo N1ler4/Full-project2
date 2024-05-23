@@ -3,8 +3,8 @@ import http  from "../../plugins/http";
 
 interface postData{
     amount: number|null
-    client_phonenumber: string;
-    cliet_full_name:string;
+    client_phone_number: string;
+    client_full_name:string;
     service_id:string;
 }
 

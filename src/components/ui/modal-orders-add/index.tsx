@@ -27,7 +27,6 @@ interface GetOrders {
 export default function Modal1({ getOrders }: GetOrders) {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  console.log(data)
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -35,23 +34,23 @@ export default function Modal1({ getOrders }: GetOrders) {
 
   interface initialValues {
     amount: number | null;
-    client_phonenumber: string;
-    cliet_full_name: string;
+    client_phone_number: string;
+    client_full_name: string;
     service_id: string;
   }
   interface postData extends initialValues {}
 
   const validationSchema = Yup.object().shape({
     amount: Yup.string().required("Amount is required"),
-    client_phonenumber: Yup.string().required("Number is required"),
-    cliet_full_name: Yup.string().required("Full name is required"),
+    client_phone_number: Yup.string().required("Number is required"),
+    client_full_name: Yup.string().required("Full name is required"),
     service_id: Yup.string().required("It should not be empty"),
   });
 
   const initialValues: initialValues = {
     amount: null,
-    client_phonenumber: "",
-    cliet_full_name: "",
+    client_phone_number: "",
+    client_full_name: "",
     service_id: "",
   };
 
@@ -59,7 +58,6 @@ export default function Modal1({ getOrders }: GetOrders) {
     const data: postData = { ...value };
     try {
       const res = await order.orderPost(data);
-      console.log(res);
 
       if (res.status === 201) {
         handleClose();
@@ -75,7 +73,6 @@ export default function Modal1({ getOrders }: GetOrders) {
       page: 1,
       limit: 10,
     });
-    console.log(res);
     setData(res.data.services);
 
   };
@@ -115,11 +112,11 @@ export default function Modal1({ getOrders }: GetOrders) {
                 label="Full Name"
                 sx={{ "& input": { color: "#00000", fontSize: "20px" } }}
                 type="text"
-                name="cliet_full_name"
+                name="client_full_name"
                 className=" w-[100%]  mb-3 outline-none py-0"
               />
               <ErrorMessage
-                name="cliet_full_name"
+                name="client_full_name"
                 component="p"
                 className="mb-3 text-red-500 text-center"
               />
@@ -128,11 +125,11 @@ export default function Modal1({ getOrders }: GetOrders) {
                 label="Phone Number"
                 sx={{ "& input": { color: "#00000", fontSize: "20px" } }}
                 type="text"
-                name="client_phonenumber"
+                name="client_phone_number"
                 className=" w-[100%]  mb-3 outline-none py-0"
               />
               <ErrorMessage
-                name="client_phonenumber"
+                name="client_phone_number"
                 component="p"
                 className="mb-3 text-red-500 text-center"
               />
@@ -144,7 +141,7 @@ export default function Modal1({ getOrders }: GetOrders) {
                 name="service_id"
                 className=" w-[100%]  mb-3 outline-none py-0"
               >
-                {data.map((e:any , i:number)=>(
+                {data?.map((e:any , i:number)=>(
                   <option key={i} value={e.id}>{e.name}</option>
                 ))}
               </Field>

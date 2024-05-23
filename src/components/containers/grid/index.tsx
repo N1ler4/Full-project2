@@ -2,7 +2,6 @@ import "./style.scss";
 import { gridPropType } from "@interface";
 
 const index = ({cols, gap, }:gridPropType) => {
-    console.log(cols, gap);
 
     const style={
         display:'grid',

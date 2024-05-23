@@ -80,7 +80,7 @@ export interface FormData2 {
 
 export interface FormDataModal{
   code: string,
-  email: string
+  email: any
 }
 export interface FormData3 {
   email: string;

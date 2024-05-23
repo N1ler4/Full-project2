@@ -25,9 +25,9 @@ const index = () => {
       await schema.validate(values, { abortEarly: false });
       const res: any = await signin(values);
       if (res.status === 200) {
-        console.log(res);
         saveDataFromCookie("id", res.data.id);
         saveDataFromCookie("email", values.email);
+        saveDataFromCookie("refresh_token" , res.data.refresh_token);
         navigate("/main");
       }
     } catch (err) {

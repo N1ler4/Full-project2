@@ -27,11 +27,7 @@ const Index = () => {
   const { register, verify } = useAuthStore();
   const navigate = useNavigate();
 
-  const emailValueFromCookie = getDataFromCookie("email") || "";
-  console.log(emailValueFromCookie);
-
-  const [emailValue, ] = useState<string>(emailValueFromCookie);
-
+  
   const initialValues: FormData = {
     email: "",
     password: "",
@@ -41,7 +37,7 @@ const Index = () => {
 
   const initialValuesModal: FormDataModal = {
     code: "",
-    email: emailValue || "",
+    email: getDataFromCookie("email"),
     //...
   };
 

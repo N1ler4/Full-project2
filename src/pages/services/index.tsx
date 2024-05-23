@@ -22,7 +22,6 @@
         page: 1,
         limit: 10,
       });
-      console.log(res);
       setData(res.data.services);
       setTimeout(() => {
         setLoader(false);

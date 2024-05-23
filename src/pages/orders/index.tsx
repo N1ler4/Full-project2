@@ -7,15 +7,19 @@ import { services } from "../../service/services";
 const index = () => {
   const [loader, setLoader] = useState(true);
   const [data, setData] = useState([]);
+  const [time, setTime] = useState("");
+  console.log(time)
+  // console.log(time)
   console.log(data);
 
   const theader = [
     { title: "", name: "id" },
-    { title: "Ism Sharifi", name: "service_id" },
-    { title: "Xizmat turi", name: "updated_at" },
-    { title: "Buyurtirildi", name: "created_at" },
+    { title: "Ism Sharifi", name: "client_name" },
+    { title: "Telefon nomer", name: "client_phone_number" },
+    { title: "Xizmat turi", name: "service_name" },
+    { title: "Buyurtirildi", name: time },
     { title: "Status", name: "status" },
-    { title: "Narxi", name: "price" },
+    { title: "Narxi", name: "service_price" },
     { title: "Action", name: "action" },
   ];
 
@@ -27,6 +31,8 @@ const index = () => {
     console.log(res);
     setData(res.data.orders_list);
     console.log(res.data.orders_list);
+    console.log(res.data.orders_list[0].created_at);
+    setTime(res.data.orders_list.map((element: { created_at: any; }) => element.created_at.slice(0,10)));
     setTimeout(() => {
       setLoader(false);
     }, 1000);
@@ -41,7 +47,6 @@ const index = () => {
       page: 1,
       limit: 10,
     });
-    console.log(res);
     setData(res.data.services);
     setTimeout(() => {
       setLoader(false);
