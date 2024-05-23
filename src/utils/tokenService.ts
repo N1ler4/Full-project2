@@ -9,3 +9,6 @@ export const saveDataFromCookie = (title: any , value:any) => {
 export const getValueFromCookie = (value: any) => {
   return Cookies.get(value);
 }
+export const isAunthenticated = ():boolean =>{
+  return !!getDataFromCookie("token")
+}

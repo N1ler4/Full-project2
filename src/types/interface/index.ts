@@ -94,3 +94,6 @@ export interface Route {
   name: string;
   icon: JSX.Element;
 }
+export interface ProtectedRouterProps{
+  element:JSX.Element;
+}
