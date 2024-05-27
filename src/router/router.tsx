@@ -22,27 +22,27 @@ const router : Route[] = [
     content: "Buyurtmalar",
     icon: <LocalOfferIcon/>
   },
-  {
-    path: "/main/users",
-    content: "Mijozlar",
-    icon: <GroupIcon/>
-  },
-  {
-    path: "/main/sms",
-    content: "Mijozlar",
-    icon: <SmsIcon/>
-  },
+  // {
+  //   path: "/main/users",
+  //   content: "Mijozlar",
+  //   icon: <GroupIcon/>
+  // },
+  // {
+  //   path: "/main/sms",
+  //   content: "Mijozlar",
+  //   icon: <SmsIcon/>
+  // },
 
   {
     path: "/main/services",
     content: "Xizmatlar",
     icon: <ElectricalServicesIcon/>
   },
-  {
-    path: "/main/settings",
-    content: "Sozlamalar",
-    icon: <SettingsIcon/>
-  },
+  // {
+  //   path: "/main/settings",
+  //   content: "Sozlamalar",
+  //   icon: <SettingsIcon/>
+  // },
 ];
 
 export default router;

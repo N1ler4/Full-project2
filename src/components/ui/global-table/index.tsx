@@ -1,6 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { ModalServicesEdit } from "@ui";
+import { ModalServicesEdit , ModalOrderEdit } from "@ui";
 function Index({ tbody, theader, deletIdData, getServese }: any) {
   return (
     <>
@@ -41,10 +41,27 @@ function Index({ tbody, theader, deletIdData, getServese }: any) {
                             getServese={getServese}
                           />
                         </div>
+                      ) : item2.name === "order action" ? (
+                        <div className="w-full flex items-center justify-center gap-1">
+                          <button
+                            onClick={() => deletIdData(item.id)}
+                            className="py-1 px-3 rounded-md bg-red-500 hover:bg-red-700 active:bg-red-500 duration-300  flex items-center gap-2"
+                          >
+                            <DeleteIcon />
+                          </button>
+                          <ModalOrderEdit
+                            data={item}
+                            getServese={getServese}
+                          />
+                        </div>
                       ) : item2.name === "id" ? (
                         <div className="w-full flex items-center justify-center">
                           <input type="checkbox" className=" w-4 h-4" />
                         </div>
+                      ) : item2.name === "created_at" ? (
+                        <p className="text-center">
+                          {item[item2.name].slice(0, 10)}
+                        </p>
                       ) : (
                         <p className=" text-center">{item[item2.name]}</p>
                       )}

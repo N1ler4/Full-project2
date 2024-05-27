@@ -1,10 +1,9 @@
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-
 import * as Yup from "yup";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import { Button, Select, TextField } from "@mui/material";
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import { order } from "../../../service/orders";
 import { services } from "../../../service/services";
 
@@ -24,13 +23,17 @@ interface GetOrders {
   getOrders: () => any;
 }
 
+interface Service {
+  id: string;
+  name: string;
+}
+
 export default function Modal1({ getOrders }: GetOrders) {
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Service[] | null>(null); // Установите начальное значение как null или тип объекта Service[]
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  /// my code ----------------------------------------------------
 
   interface initialValues {
     amount: number | null;
@@ -56,10 +59,13 @@ export default function Modal1({ getOrders }: GetOrders) {
 
   const handelSubmit = async (value: initialValues) => {
     const data: postData = { ...value };
+    
+    console.log(data);
     try {
       const res = await order.orderPost(data);
+      console.log(res);
 
-      if (res.status === 201) {
+      if (res && res.status === 201) {
         handleClose();
         getOrders();
       }
@@ -74,14 +80,11 @@ export default function Modal1({ getOrders }: GetOrders) {
       limit: 10,
     });
     setData(res.data.services);
-
   };
 
   useEffect(() => {
     getServese();
   }, []);
-
-  //----------------------------------------------------------------
 
   return (
     <div>
@@ -141,8 +144,10 @@ export default function Modal1({ getOrders }: GetOrders) {
                 name="service_id"
                 className=" w-[100%]  mb-3 outline-none py-0"
               >
-                {data?.map((e:any , i:number)=>(
-                  <option key={i} value={e.id}>{e.name}</option>
+                {data?.map((e, i) => (
+                  <option key={i} value={e.id}>
+                    {e.name}
+                  </option>
                 ))}
               </Field>
               <ErrorMessage

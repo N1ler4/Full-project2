@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./style.scss";
 import { Container } from "@containers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
@@ -8,10 +7,28 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 import { date } from "../../service/date";
 import { Button } from "@mui/material";
+import { PieChart } from "@mui/x-charts/PieChart";
+
+interface Data {
+  all_orders: any;
+  done: any;
+  in_progress: any;
+}
 
 const Index = () => {
-  const [date1, setDate1] = useState(dayjs());
-  const [date2, setDate2] = useState(dayjs());
+  const defaultDate = dayjs().startOf("month").date(1);
+  const [date1, setDate1] = useState(defaultDate);
+  const [date2, setDate2] = useState(defaultDate);
+  const [data, setData] = useState<Data>({
+    all_orders: 0,
+    done: 0,
+    in_progress: 0,
+  });
+
+  console.log(data);
+
+  const firstDayOfMonth = dayjs().startOf('month');
+  const lastDayOfMonth = dayjs().endOf('month');
 
   const handleDate1Change = (newValue: any) => {
     const formattedDate = newValue.format("YYYY-MM-DD");
@@ -32,6 +49,7 @@ const Index = () => {
         end: date2.format("YYYY-MM-DD"),
       };
       const res = await date.dateGet(dateValue);
+      setData(res.data);
       console.log(res);
     } else {
       console.log("Please select both dates.");
@@ -48,6 +66,7 @@ const Index = () => {
                 label="From"
                 format="YYYY-MM-DD"
                 value={date1}
+                defaultValue={firstDayOfMonth}
                 onChange={handleDate1Change}
               />
               <DatePicker
@@ -59,6 +78,23 @@ const Index = () => {
               <Button onClick={getDate}>Get Data</Button>
             </div>
           </DemoContainer>
+          <div className="flex mt-5">
+            {data && (
+              <PieChart
+                series={[
+                  {
+                    data: [
+                      { value: data.all_orders, label: "all_orders" },
+                      { value: data.done, label: "done" },
+                      { value: data.in_progress, label: "in_progress" },
+                    ],
+                  },
+                ]}
+                width={600}
+                height={400}
+              />
+            )}
+          </div>
         </LocalizationProvider>
       </Container>
     </div>
