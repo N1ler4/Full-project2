@@ -35,7 +35,7 @@ const Index: React.FC = () => {
     getServices(currentPage);
   }, [currentPage]);
 
-  const deleteService = async (id: string) => {
+  const deletIdData = async (id: string) => {
     try {
       const res = await services.servicesDelete(id);
       if (res.status === 200) {
@@ -46,7 +46,10 @@ const Index: React.FC = () => {
     }
   };
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
     setCurrentPage(page);
     setLoader(true);
   };
@@ -68,7 +71,7 @@ const Index: React.FC = () => {
               <GlobolTeble
                 tbody={data}
                 theader={theader}
-                deleteIdData={deleteService}
+                deletIdData={deletIdData}
                 getServices={getServices}
               />
               <div className="flex justify-center mt-4">
